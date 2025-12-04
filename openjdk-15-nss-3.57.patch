@@ -1,0 +1,24 @@
+diff -up jdk21u-jdk-21-33/src/jdk.crypto.cryptoki/share/native/libj2pkcs11/p11_convert.c.6~ jdk21u-jdk-21-33/src/jdk.crypto.cryptoki/share/native/libj2pkcs11/p11_convert.c
+--- jdk21u-jdk-21-33/src/jdk.crypto.cryptoki/share/native/libj2pkcs11/p11_convert.c.6~	2023-07-26 20:28:12.000000000 +0100
++++ jdk21u-jdk-21-33/src/jdk.crypto.cryptoki/share/native/libj2pkcs11/p11_convert.c	2023-08-02 18:04:25.959397054 +0100
+@@ -1545,7 +1545,7 @@ CK_VOID_PTR jMechParamToCKMechParamPtrSl
+             ckpParamPtr = jX942Dh2DeriveParamToCKX942Dh2DeriveParamPtr(env, jParam, ckpLength);
+             break;
+         // defined by pkcs11.h but we don't support
+-        case CKM_KEA_DERIVE: // CK_KEA_DERIVE_PARAMS
++        case CKM_KEA_KEY_DERIVE: // CK_KEA_DERIVE_PARAMS
+         case CKM_RC2_CBC: // CK_RC2_CBC_PARAMS
+         case CKM_RC2_MAC_GENERAL: // CK_RC2_MAC_GENERAL_PARAMS
+         case CKM_RC5_ECB: // CK_RC5_PARAMS
+diff -up jdk21u-jdk-21-33/src/jdk.crypto.cryptoki/share/native/libj2pkcs11/p11_util.c.6~ jdk21u-jdk-21-33/src/jdk.crypto.cryptoki/share/native/libj2pkcs11/p11_util.c
+--- jdk21u-jdk-21-33/src/jdk.crypto.cryptoki/share/native/libj2pkcs11/p11_util.c.6~	2023-08-02 18:04:25.969397078 +0100
++++ jdk21u-jdk-21-33/src/jdk.crypto.cryptoki/share/native/libj2pkcs11/p11_util.c	2023-08-02 18:05:01.909483906 +0100
+@@ -405,7 +405,7 @@ void freeCKMechanismPtr(CK_MECHANISM_PTR
+                  case CKM_TLS_MAC:
+                  case CKM_AES_CTR:
+                  case CKM_RSA_PKCS_PSS:
+-                 case CKM_CAMELLIA_CTR:
++//                 case CKM_CAMELLIA_CTR:
+                      // params do not contain pointers
+                      break;
+                  case CKM_PKCS5_PBKD2:
