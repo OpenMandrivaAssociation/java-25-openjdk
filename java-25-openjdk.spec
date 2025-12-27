@@ -29,6 +29,12 @@
 %define oldmajor %(echo $((%{major}-1)))
 %define vercode %(if [ "%{minor}" = "0.0" ]; then echo -n %{major}; else echo -n %{ver}; fi)
 
+# Set of architectures with libsvml.so
+%global svml_arches x86_64
+
+# Set of architectures with libsleef.so
+%global sleef_arches aarch64
+
 Name:		java-25-openjdk
 Version:	25.0.3.%{subminor}
 Release:	1
@@ -370,8 +376,11 @@ chmod +x %{buildroot}%{_sysconfdir}/profile.d/*.*sh
 %{_jvmdir}/java-%{major}-openjdk/lib/librmi.so
 %{_jvmdir}/java-%{major}-openjdk/lib/libsaproc.so
 %{_jvmdir}/java-%{major}-openjdk/lib/libsctp.so
-%ifarch %{x86_64}
+%ifarch %{svml_arches}
 %{_jvmdir}/java-%{major}-openjdk/lib/libjsvml.so
+%endif
+%ifarch %{sleef_arches}
+%{_jvmdir}/java-%{major}-openjdk/lib/libsleef.so
 %endif
 %{_jvmdir}/java-%{major}-openjdk/lib/libsyslookup.so
 %{_jvmdir}/java-%{major}-openjdk/lib/libverify.so
