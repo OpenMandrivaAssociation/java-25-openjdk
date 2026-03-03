@@ -20,7 +20,7 @@
 %define major %(echo %{version} |cut -d. -f1)
 %define minor %(echo %{version} |cut -d. -f2-3)
 %define ver %(echo %{version} |rev |cut -d. -f2- |rev)
-%define subminor 0
+%define subminor 4
 #define is_head 1
 #For non-GA releases: %(echo %{version} |rev |cut -d. -f1 |rev)
 # OpenJDK X requires OpenJDK >= X-1 to build -- so we need
@@ -30,10 +30,10 @@
 %define vercode %(if [ "%{minor}" = "0.0" ]; then echo -n %{major}; else echo -n %{ver}; fi)
 
 # Set of architectures with libsvml.so
-%global svml_arches x86_64
+%global svml_arches %{x86_64}
 
 # Set of architectures with libsleef.so
-%global sleef_arches aarch64
+%global sleef_arches %{aarch64}
 
 Name:		java-25-openjdk
 Version:	25.0.3.%{subminor}
