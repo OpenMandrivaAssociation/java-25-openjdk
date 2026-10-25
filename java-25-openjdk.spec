@@ -1,5 +1,5 @@
 %bcond_with gcc
-%bcond_without system_jdk
+%bcond_with system_jdk
 # Without bootstrap, the package BuildRequires
 # rpm-javamacros (which in turn requires this package)
 # so jmod(*) and java(*) Provides: can be generated correctly.
@@ -20,7 +20,7 @@
 %define major %(echo %{version} |cut -d. -f1)
 %define minor %(echo %{version} |cut -d. -f2-3)
 %define ver %(echo %{version} |rev |cut -d. -f2- |rev)
-%define subminor 4
+%define subminor 0
 #define is_head 1
 #For non-GA releases: %(echo %{version} |rev |cut -d. -f1 |rev)
 # OpenJDK X requires OpenJDK >= X-1 to build -- so we need
@@ -36,7 +36,7 @@
 %global sleef_arches %{aarch64}
 
 Name:		java-25-openjdk
-Version:	25.0.3.%{subminor}
+Version:	25.0.5.0.3.%{subminor}
 Release:	2
 Summary:	Java Runtime Environment (JRE) %{major}
 Group:		Development/Languages
@@ -287,6 +287,13 @@ make -j1 bootcycle-images all docs
 %install
 mkdir -p %{buildroot}%{_jvmdir}
 cp -a build/images/jdk %{buildroot}%{_jvmdir}/java-%{major}-openjdk
+# JDK-8351842 (in 25.0.5): release builds no longer copy external native
+# debug symbols into the JDK image. They are only in the symbols image.
+# Put them back next to the binaries. HotSpot opens lib*.debuginfo by
+# that name, and find-debuginfo then leaves the *.debuginfo.gdb-index
+# sidecars packaged below. --with-external-symbols-in-bundles=full would
+# instead store these files inside the jmod archives.
+cp -a build/images/symbols/. %{buildroot}%{_jvmdir}/java-%{major}-openjdk/
 ln -s java-%{major}-openjdk %{buildroot}%{_jvmdir}/jre-%{major}-openjdk
 
 %if %{with system_jdk}
